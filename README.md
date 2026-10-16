@@ -39,8 +39,8 @@ inactive, not deleted.
 The importer prints a report:
 
 - **Nutrient mapping:** which CNF nutrient feeds each of the app's nutrients.
-- **Coverage:** how many foods have a value for each nutrient. Vitamin D and omega-3 are
-  sparse in CNF.
+- **Coverage:** how many foods have a value for each nutrient. In CNF 2015, most nutrients are
+  at 80–100%; the exception is the total omega-3 field (about 35%).
 
 The mapping lives in `src/nutrition/seeds/cnf_nutrient_map.csv`. Each row gives a CNF
 `NutrientID`, the expected unit and words its name must contain. If the CNF files don't match,
