@@ -155,3 +155,7 @@ def test_cli_init_db_and_import(db_url, cnf_sample):
     ).stdout
     assert "foods: 3 total (3 new" in out
     assert "vitamin_d" in out
+    out = subprocess.run(
+        [*run, "seed"], env=env, cwd=cwd, check=True, capture_output=True, text=True
+    ).stdout
+    assert "Loaded reference data" in out

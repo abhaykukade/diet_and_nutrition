@@ -4,8 +4,8 @@ A small web app (phone-friendly) for logging what each person in the household e
 comparing intake with Health Canada Dietary Reference Intakes, and, later, suggesting foods
 that fill nutrient gaps.
 
-**Status:** Phase 1 in progress. Done so far: project skeleton and the Canadian Nutrient File
-(CNF) importer.
+**Status:** Phase 1 in progress. Done so far: project skeleton, the Canadian Nutrient File
+(CNF) importer and the Health Canada DRI reference data.
 
 ## Setup
 
@@ -14,6 +14,7 @@ Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 ```bash
 uv sync                      # create .venv and install dependencies
 uv run nutrition init-db     # create/migrate the SQLite database (data/nutrition.db)
+uv run nutrition seed        # load reference data (nutrients, DRIs)
 ```
 
 The database location can be changed with `NUTRITION_DATABASE_URL`
@@ -50,6 +51,33 @@ rows have been checked against the CNF 2015 release.
 
 Raw downloads and the database live in `data/` and are not committed.
 
+## Dietary Reference Intakes
+
+```bash
+uv run nutrition seed            # load nutrients, DRIs, AMDRs and energy equations
+```
+
+The DRI targets come from Health Canada's
+[DRI tables](https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables.html).
+They're stored in three committed seed files in `src/nutrition/seeds/`:
+
+| File | Contents |
+|---|---|
+| `dri_values.csv` | EAR / RDA / AI / UL / CDRR for every life-stage group, for the tracked nutrients |
+| `amdr.csv` | Acceptable Macronutrient Distribution Ranges (% of energy) |
+| `eer_equations.csv` | Estimated Energy Requirement equations (age, sex, height, weight, activity level, pregnancy, breastfeeding) |
+
+No value is typed by hand. `nutrition build-dri-seed` downloads the official pages and parses
+their tables to regenerate the files. Every row records:
+
+- the source URL, table caption and the page's "date modified"
+- the footnotes that apply to it, e.g. "the requirement for iron is 1.8 times higher for
+  vegetarians"
+
+When the source gives no value ("ND", not determinable), the amount is left empty and the
+`status` column says why. Rows missing from the source tables get `status = missing_from_source`.
+The command lists both kinds of flagged values when it finishes.
+
 ## Development
 
 ```bash
@@ -77,7 +105,8 @@ src/nutrition/
   models/                     SQLAlchemy models
   importers/base.py           source-agnostic import pipeline (CNF now, USDA FDC later)
   importers/cnf.py            CNF CSV reader
-  seeds/                      canonical nutrient list, CNF nutrient map (later: DRI values, infant flags)
+  sources/hc_dri.py           builds the DRI seed files from Health Canada's DRI tables
+  seeds/                      reference data: nutrients, CNF nutrient map, DRIs, AMDRs, EER equations
   services/, web/             business logic and HTMX/Jinja2 UI (coming in later steps)
 migrations/                   Alembic migrations
 tests/                        pytest suite

@@ -1,0 +1,10 @@
+nutrient_key,age_min_months,age_max_months,age_label,low_pct,high_pct,source_url,source_date
+carbohydrate,12,48,1–3 years,45,65,https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html,
+protein,12,48,1–3 years,5,20,https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html,
+fat,12,48,1–3 years,30,40,https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html,
+carbohydrate,48,228,4–18 years,45,65,https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html,
+protein,48,228,4–18 years,10,30,https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html,
+fat,48,228,4–18 years,25,35,https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html,
+carbohydrate,228,,19 years and over,45,65,https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html,
+protein,228,,19 years and over,10,35,https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html,
+fat,228,,19 years and over,20,35,https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html,
