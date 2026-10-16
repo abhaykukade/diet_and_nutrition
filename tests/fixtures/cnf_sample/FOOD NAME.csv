@@ -1,0 +1,4 @@
+FoodID,FoodCode,FoodGroupID,FoodSourceID,FoodDescription,FoodDescriptionF,FoodDateOfEntry,FoodDateOfPublication,CountryCode,ScientificName
+1001,1001,16,0,"Lentils, red, boiled","Lentilles, rouges, bouillies",2015-01-01,,,
+1002,1002,5,0,"Chicken, broiler, breast, roasted","Poulet, poitrine, rôti",2015-01-01,,,
+1003,1003,13,0,"Beef, ground, pan-fried","Boeuf, haché, poêlé",2015-01-01,,,

@@ -1,0 +1,20 @@
+key,name,unit,display_order,is_key
+energy_kcal,Calories,kcal,10,1
+protein,Protein,g,20,1
+carbohydrate,Carbohydrate,g,30,1
+fibre,Fibre,g,40,1
+fat,Fat,g,50,1
+saturated_fat,Saturated fat,g,55,0
+sugars,Sugars,g,35,0
+iron,Iron,mg,60,1
+calcium,Calcium,mg,70,1
+vitamin_d,Vitamin D,µg,80,1
+vitamin_b12,Vitamin B12,µg,90,1
+zinc,Zinc,mg,100,1
+folate_dfe,Folate (DFE),µg,110,1
+omega3_ala,Omega-3 ALA (18:3 n-3),g,120,1
+omega3_epa,Omega-3 EPA (20:5 n-3),g,121,0
+omega3_dpa,Omega-3 DPA (22:5 n-3),g,122,0
+omega3_dha,Omega-3 DHA (22:6 n-3),g,123,0
+sodium,Sodium,mg,130,0
+vitamin_c,Vitamin C,mg,140,0

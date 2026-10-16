@@ -1,0 +1,7 @@
+FoodID,MeasureID,ConversionFactorValue,ConvFactorDateOfEntry
+1001,341,1.98,
+1001,342,1.05,
+1001,500,1,
+1002,601,0.86,
+1002,500,1,
+1003,500,1,
