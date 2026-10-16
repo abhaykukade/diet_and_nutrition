@@ -23,6 +23,9 @@ The database location can be changed with `NUTRITION_DATABASE_URL`
 
 1. Download the CNF CSV files from Health Canada:
    <https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/nutrient-data/canadian-nutrient-file-2015-download-files.html>
+   Use the **Entire database: CSV** zip (`cnf-fcen-csv.zip`, CNF 2015, 5,690 foods). You don't
+   need the separate "update files" zip: it only lists changes since the 2010 edition, and
+   those are already in the full database.
 2. Import the zip as downloaded, or the folder you extracted it into:
 
    ```bash
@@ -39,10 +42,11 @@ The importer prints a report:
 - **Coverage:** how many foods have a value for each nutrient. Vitamin D and omega-3 are
   sparse in CNF.
 
-The mapping lives in `src/nutrition/seeds/cnf_nutrient_map.csv`. Each row names the CNF nutrient
-id, the expected unit and words its name must contain. If the CNF files don't match, the import
-stops and writes nothing. A row's `verified` column is set to `yes` only after it has been
-checked against the real CNF files.
+The mapping lives in `src/nutrition/seeds/cnf_nutrient_map.csv`. Each row gives a CNF
+`NutrientID`, the expected unit and words its name must contain. If the CNF files don't match,
+the import stops and writes nothing. Watch out: CNF's `NutrientID` (used by the amounts file)
+differs from its `NutrientCode` for some nutrients, e.g. folate DFE is ID 815 / code 435. All
+rows have been checked against the CNF 2015 release.
 
 Raw downloads and the database live in `data/` and are not committed.
 

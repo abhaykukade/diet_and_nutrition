@@ -16,5 +16,6 @@ omega3_ala,Omega-3 ALA (18:3 n-3),g,120,1
 omega3_epa,Omega-3 EPA (20:5 n-3),g,121,0
 omega3_dpa,Omega-3 DPA (22:5 n-3),g,122,0
 omega3_dha,Omega-3 DHA (22:6 n-3),g,123,0
+omega3_total,Omega-3 (total n-3),g,124,1
 sodium,Sodium,mg,130,0
 vitamin_c,Vitamin C,mg,140,0

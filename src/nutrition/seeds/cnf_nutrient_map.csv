@@ -1,21 +1,22 @@
 source_nutrient_id,nutrient_key,expected_unit,name_must_contain,factor,priority,required,verified,notes
-208,energy_kcal,kcal,energy|kilocalories,1,0,yes,no,
-203,protein,g,protein,1,0,yes,no,
-205,carbohydrate,g,carbohydrate,1,0,yes,no,total by difference
-291,fibre,g,fibre,1,0,yes,no,total dietary fibre
-204,fat,g,fat|total,1,0,yes,no,total lipids
-606,saturated_fat,g,saturated,1,0,yes,no,
-269,sugars,g,sugars,1,0,yes,no,
-303,iron,mg,iron,1,0,yes,no,
-301,calcium,mg,calcium,1,0,yes,no,
-309,zinc,mg,zinc,1,0,yes,no,
-307,sodium,mg,sodium,1,0,yes,no,
-401,vitamin_c,mg,vitamin c,1,0,yes,no,
-418,vitamin_b12,µg,b-12,1,0,yes,no,
-435,folate_dfe,µg,folate|equivalents,1,0,yes,no,DRIs for folate are expressed as DFE
-339,vitamin_d,µg,vitamin d,1,0,no,no,D2+D3 in micrograms preferred when present
-324,vitamin_d,IU,vitamin d,0.025,1,no,no,fallback: 1 µg vitamin D = 40 IU
-851,omega3_ala,g,18:3|n-3,1,0,yes,no,
-629,omega3_epa,g,20:5|n-3,1,0,yes,no,
-631,omega3_dpa,g,22:5|n-3,1,0,yes,no,
-621,omega3_dha,g,22:6|n-3,1,0,yes,no,
+208,energy_kcal,kcal,energy|kilocalories,1,0,yes,yes,
+203,protein,g,protein,1,0,yes,yes,
+205,carbohydrate,g,carbohydrate,1,0,yes,yes,total by difference
+291,fibre,g,fibre,1,0,yes,yes,total dietary fibre
+204,fat,g,fat|total,1,0,yes,yes,total lipids
+606,saturated_fat,g,saturated,1,0,yes,yes,
+269,sugars,g,sugars,1,0,yes,yes,
+303,iron,mg,iron,1,0,yes,yes,
+301,calcium,mg,calcium,1,0,yes,yes,
+309,zinc,mg,zinc,1,0,yes,yes,
+307,sodium,mg,sodium,1,0,yes,yes,
+401,vitamin_c,mg,vitamin c,1,0,yes,yes,
+418,vitamin_b12,µg,b-12,1,0,yes,yes,
+815,folate_dfe,µg,folate|equivalents,1,0,yes,yes,CNF NutrientID 815 (NutrientCode 435); DRIs for folate are expressed as DFE
+339,vitamin_d,µg,vitamin d|d2 + d3,1,0,no,yes,CNF NutrientID 339 (NutrientCode 328); preferred when present
+324,vitamin_d,IU,vitamin d,0.025,1,no,yes,fallback: 1 µg vitamin D = 40 IU
+831,omega3_ala,g,18:3|n-3,1,0,yes,yes,CNF NutrientID 831 (NutrientCode 851)
+629,omega3_epa,g,20:5|n-3,1,0,yes,yes,
+631,omega3_dpa,g,22:5|n-3,1,0,yes,yes,
+621,omega3_dha,g,22:6|n-3,1,0,yes,yes,
+868,omega3_total,g,total|omega|n-3,1,0,yes,yes,CNF NutrientID 868 (NutrientCode 902)
