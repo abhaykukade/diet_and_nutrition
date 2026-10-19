@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}{{ person.name }} targets · Family Nutrition{% endblock %}
+{% block content %}
+<hgroup>
+  <h1>{{ person.name }}</h1>
+  <p>{{ age_text(pt.age_months) }}{% if pt.group_label %} · Health Canada group: {{ pt.group_label }}{% endif %}</p>
+</hgroup>
+{% if pt.infant_mode %}
+{% include "_infant_note.html" %}
+<p>Breast milk or formula still provides most of {{ person.name }}'s nutrition and isn't logged,
+so these values are <strong>reference only</strong>. The dashboard won't show targets met/unmet.</p>
+{% endif %}
+
+<div class="nutrient-list" role="list">
+  <div class="nutrient-row nutrient-head" aria-hidden="true">
+    <span>Nutrient</span><span>Daily target</span><span>Upper limit</span>
+  </div>
+  {% for t in shown %}
+  <details class="nutrient" role="listitem">
+    <summary class="nutrient-row">
+      <span class="n-name">{{ t.name }}</span>
+      <span class="n-target">
+        {% if t.amount is not none %}
+          {{ t.amount|num }} {{ t.unit }} <span class="kind">{{ t.kind }}</span>
+        {% elif t.amdr_pct %}
+          {{ t.amdr_pct[0]|num }}–{{ t.amdr_pct[1]|num }}% of kcal
+        {% else %}
+          <span class="muted">—</span>
+        {% endif %}
+      </span>
+      <span class="n-upper">
+        {% if t.upper is not none %}{{ t.upper|num }} {{ t.unit }} <span class="kind">{{ t.upper_kind }}</span>{% else %}<span class="muted">—</span>{% endif %}
+      </span>
+    </summary>
+    <ul class="small">
+      {% if t.missing_reason %}<li>{{ t.missing_reason }}</li>{% endif %}
+      {% for n in t.notes %}<li>{{ n }}</li>{% endfor %}
+      {% if t.amdr_pct and t.amount is not none %}<li>Acceptable range: {{ t.amdr_pct[0]|num }}–{{ t.amdr_pct[1]|num }}% of calories.</li>{% endif %}
+      {% if t.upper_nutrient_key == "folic_acid" %}<li>The upper limit is compared with synthetic folic acid only (fortified foods and supplements).</li>{% endif %}
+      {% for label, url in t.sources %}<li class="muted">Source: <a href="{{ url }}" target="_blank" rel="noopener">{{ label }}</a></li>{% endfor %}
+    </ul>
+  </details>
+  {% endfor %}
+</div>
+<p class="small muted">RDA: recommended dietary allowance. AI: adequate intake (used when there's no RDA). UL: tolerable upper intake level. CDRR: chronic disease risk reduction intake. EER: estimated energy requirement.</p>
+
+<section>
+  <h2>Custom targets</h2>
+  {% if person.overrides %}
+  <ul>
+    {% for o in person.overrides %}
+    <li>{{ o.nutrient.name }}: {{ o.amount|num }} {{ o.nutrient.unit }}{% if o.note %} ({{ o.note }}){% endif %}
+      <form method="post" action="/people/{{ person.id }}/overrides/{{ o.id }}/delete" class="inline">
+        <button type="submit" class="outline secondary small">Remove</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">None. A custom target replaces the calculated one for that nutrient.</p>
+  {% endif %}
+  <form method="post" action="/people/{{ person.id }}/overrides">
+    <div class="grid">
+      <select name="nutrient_id" aria-label="Nutrient">
+        {% for n in nutrients %}<option value="{{ n.id }}">{{ n.name }} ({{ n.unit }})</option>{% endfor %}
+      </select>
+      <input name="amount" inputmode="decimal" placeholder="Amount" aria-label="Amount" required>
+      <input name="note" placeholder="Why (optional)" aria-label="Note">
+    </div>
+    <button type="submit" class="outline">Set custom target</button>
+  </form>
+</section>
+<p><a href="/people/{{ person.id }}/edit" role="button" class="outline">Edit profile</a></p>
+{% endblock %}

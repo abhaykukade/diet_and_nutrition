@@ -1,0 +1,30 @@
+/* App-specific tweaks on top of Pico. */
+:root { --pico-font-size: 100%; }
+.narrow { max-width: 28rem; margin-inline: auto; }
+.inline { display: inline; margin: 0; }
+.inline button { margin: 0; }
+.small, button.small, a.small { font-size: 0.85rem; padding: 0.35rem 0.7rem; }
+.muted { color: var(--pico-muted-color); }
+.error { color: var(--pico-del-color); display: block; }
+.cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); }
+.person-card header { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; align-items: baseline; }
+.person-card footer { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.badge { font-size: 0.75rem; padding: 0.1rem 0.5rem; border-radius: 1rem;
+         background: var(--pico-primary-background); color: var(--pico-primary-inverse); }
+.infant-note { border-left: 4px solid var(--pico-primary); padding: 0.5rem 0.75rem;
+               background: var(--pico-card-sectioning-background-color); }
+.kind { font-size: 0.7rem; color: var(--pico-muted-color); text-transform: uppercase; }
+/* Targets: one row per nutrient; tapping a row reveals notes and sources full-width. */
+.nutrient-list { margin-bottom: 1rem; }
+.nutrient-row { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr);
+                gap: 0.5rem; align-items: baseline; padding: 0.6rem 0.25rem; }
+.nutrient-head { font-size: 0.8rem; color: var(--pico-muted-color);
+                 border-bottom: 2px solid var(--pico-muted-border-color); }
+details.nutrient { margin: 0; border-bottom: 1px solid var(--pico-muted-border-color); padding: 0; }
+details.nutrient > summary.nutrient-row { list-style: none; cursor: pointer; }
+details.nutrient > summary.nutrient-row::-webkit-details-marker { display: none; }
+details.nutrient > summary.nutrient-row::after { display: none; }
+details.nutrient .n-name { font-weight: 500; color: var(--pico-primary); }
+details.nutrient .n-name::before { content: "▸ "; font-size: 0.75em; }
+details.nutrient[open] .n-name::before { content: "▾ "; }
+details.nutrient > ul { margin: 0 0 0.75rem 1rem; overflow-wrap: anywhere; }

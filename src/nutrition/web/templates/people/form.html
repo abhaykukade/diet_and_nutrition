@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% macro err(name) %}{% if errors.get(name) %}<small class="error" id="{{ name }}-error">{{ errors[name] }}</small>{% endif %}{% endmacro %}
+{% macro inv(name) %}{% if errors.get(name) %}aria-invalid="true" aria-describedby="{{ name }}-error"{% endif %}{% endmacro %}
+{% block title %}{{ "Edit " ~ person.name if person else "Add a person" }} · Family Nutrition{% endblock %}
+{% block content %}
+<h1>{{ "Edit " ~ person.name if person else "Add a person" }}</h1>
+<form method="post">
+  <label>Name
+    <input name="name" value="{{ v.get('name', '') }}" required {{ inv('name') }}>
+    {{ err('name') }}
+  </label>
+  <div class="grid">
+    <label>Date of birth
+      <input type="date" name="date_of_birth" value="{{ v.get('date_of_birth', '') }}" required {{ inv('date_of_birth') }}>
+      {{ err('date_of_birth') }}
+    </label>
+    <label>Sex
+      <select name="sex" required {{ inv('sex') }}>
+        <option value="" disabled {% if not v.get('sex') %}selected{% endif %}>Choose…</option>
+        {% for k, label in sexes.items() %}<option value="{{ k }}" {% if v.get('sex') == k %}selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+      {{ err('sex') }}
+    </label>
+  </div>
+  <div class="grid">
+    <label>Height (cm)
+      <input name="height_cm" inputmode="decimal" value="{{ v.get('height_cm', '') }}" {{ inv('height_cm') }}>
+      {{ err('height_cm') }}
+    </label>
+    <label>Weight (kg)
+      <input name="weight_kg" inputmode="decimal" value="{{ v.get('weight_kg', '') }}" {{ inv('weight_kg') }}>
+      {{ err('weight_kg') }}
+    </label>
+  </div>
+  <label>Activity level
+    <select name="activity_level" {{ inv('activity_level') }}>
+      {% for k, label in activity_levels.items() %}<option value="{{ k }}" {% if v.get('activity_level') == k %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <small>Inactive: daily living only. Low active: + 60–80 min walking. Active: + walking, cycling and tennis (~2 h). Very active: + cycling, jogging and tennis (~2+ h). Ignored under age 3.</small>
+  </label>
+  <fieldset>
+    <legend>Pregnancy / breastfeeding</legend>
+    <select name="life_stage" {{ inv('life_stage') }}>
+      {% for k, label in life_stages.items() %}<option value="{{ k }}" {% if v.get('life_stage') == k %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    {{ err('life_stage') }}
+    <label>Baby's date of birth (if breastfeeding)
+      <input type="date" name="postpartum_since" value="{{ v.get('postpartum_since', '') }}" {{ inv('postpartum_since') }}>
+      {{ err('postpartum_since') }}
+    </label>
+  </fieldset>
+  <fieldset>
+    <legend>Goal</legend>
+    <select name="goal" {{ inv('goal') }}>
+      {% for k, label in goals.items() %}<option value="{{ k }}" {% if v.get('goal') == k %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <label>Calorie surplus for muscle gain (%)
+      <input name="energy_surplus_pct" inputmode="decimal" value="{{ v.get('energy_surplus_pct', '10') }}" {{ inv('energy_surplus_pct') }}>
+      <small>Used only with the muscle-gain goal. 10–20% is the evidence-based range.</small>
+      {{ err('energy_surplus_pct') }}
+    </label>
+  </fieldset>
+  <fieldset>
+    <label>
+      <input type="checkbox" name="vegetarian_iron" role="switch" {% if v.get('vegetarian_iron') in (True, 'on') %}checked{% endif %}>
+      Raise iron target ×1.8 (vegetarian diet)
+    </label>
+    <small>Health Canada: iron needs are 1.8× higher on a vegetarian diet. Leave off if chicken or fish are eaten regularly.</small>
+  </fieldset>
+  <label>Solids tracking (breast milk/formula not logged)
+    <select name="milk_mode">
+      {% for k, label in [('auto', 'Automatic (on under 12 months)'), ('on', 'On'), ('off', 'Off')] %}
+      <option value="{{ k }}" {% if v.get('milk_mode') == k %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <small>When on, the dashboard shows foods and food groups tried instead of targets met.</small>
+  </label>
+  <button type="submit">Save</button>
+  <a href="{{ '/people/%d/targets' % person.id if person else '/' }}" role="button" class="outline secondary">Cancel</a>
+</form>
+{% endblock %}

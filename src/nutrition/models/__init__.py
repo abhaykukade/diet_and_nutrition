@@ -8,8 +8,13 @@ from nutrition.models.food import (
     Nutrient,
     SourceNutrient,
 )
+from nutrition.models.people import AppUser, Person, TargetOverride, WeightEntry
 
 __all__ = [
+    "AppUser",
+    "Person",
+    "TargetOverride",
+    "WeightEntry",
     "Amdr",
     "DriValue",
     "EerEquation",

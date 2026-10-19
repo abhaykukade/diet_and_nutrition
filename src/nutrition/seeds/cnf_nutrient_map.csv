@@ -13,6 +13,7 @@ source_nutrient_id,nutrient_key,expected_unit,name_must_contain,factor,priority,
 401,vitamin_c,mg,vitamin c,1,0,yes,yes,
 418,vitamin_b12,µg,b-12,1,0,yes,yes,
 815,folate_dfe,µg,folate|equivalents,1,0,yes,yes,CNF NutrientID 815 (NutrientCode 435); DRIs for folate are expressed as DFE
+431,folic_acid,µg,folic acid,1,0,yes,yes,synthetic folic acid; the folate UL applies to this only
 339,vitamin_d,µg,vitamin d|d2 + d3,1,0,no,yes,CNF NutrientID 339 (NutrientCode 328); preferred when present
 324,vitamin_d,IU,vitamin d,0.025,1,no,yes,fallback: 1 µg vitamin D = 40 IU
 831,omega3_ala,g,18:3|n-3,1,0,yes,yes,CNF NutrientID 831 (NutrientCode 851)

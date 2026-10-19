@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<hgroup>
+  <h1>Household</h1>
+  <p>Profiles and daily targets</p>
+</hgroup>
+{% if not rows %}
+<p>No one here yet. Add each household member to get personal targets.</p>
+{% endif %}
+<div class="cards">
+{% for p, pt in rows %}
+  <article class="person-card">
+    <header>
+      <strong>{{ p.name }}</strong>
+      <small class="muted">{{ age_text(pt.age_months) }}{% if pt.group_label %} · {{ pt.group_label }}{% endif %}</small>
+      {% if pt.infant_mode %}<span class="badge">Solids tracking</span>{% endif %}
+    </header>
+    {% set e = pt.targets["energy_kcal"] %}
+    {% if pt.infant_mode %}
+    <p class="muted">Breast milk or formula plus solids. Targets shown for reference only.</p>
+    {% else %}
+    <p>
+      {% if e.amount %}{{ e.amount|num }} kcal/day{% else %}<span class="muted">{{ e.missing_reason }}</span>{% endif %}
+      {% set pr = pt.targets["protein"] %}{% if pr.amount %} · {{ pr.amount|num }} g protein{% endif %}
+    </p>
+    {% endif %}
+    <footer>
+      <a href="/people/{{ p.id }}/targets" role="button" class="small">Targets</a>
+      <a href="/people/{{ p.id }}/edit" role="button" class="outline small">Edit profile</a>
+    </footer>
+  </article>
+{% endfor %}
+</div>
+<p><a href="/people/new" role="button">Add a person</a></p>
+{% endblock %}

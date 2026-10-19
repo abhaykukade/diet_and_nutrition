@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>{% block title %}Family Nutrition{% endblock %}</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/pico-2.1.1.min.css">
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/htmx-2.0.11.min.js" defer></script>
+</head>
+<body>
+  <header class="container">
+    <nav>
+      <ul><li><a href="/" class="brand"><strong>Family Nutrition</strong></a></li></ul>
+      {% if user %}
+      <ul>
+        <li><a href="/">People</a></li>
+        <li>
+          <form method="post" action="/logout" class="inline">
+            <button type="submit" class="outline secondary small">Log out</button>
+          </form>
+        </li>
+      </ul>
+      {% endif %}
+    </nav>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

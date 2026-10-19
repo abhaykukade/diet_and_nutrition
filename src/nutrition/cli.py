@@ -1,6 +1,7 @@
 """Command-line entry point: ``nutrition <command>`` (or ``python -m nutrition.cli``)."""
 
 import argparse
+import getpass
 import sys
 from pathlib import Path
 
@@ -17,6 +18,7 @@ from nutrition.importers.base import (
 )
 from nutrition.importers.cnf import CNF_NUTRIENT_MAP, read_cnf
 from nutrition.seeds.load import load_reference_data
+from nutrition.services.auth import create_user, set_password
 from nutrition.sources import hc_dri
 
 
@@ -71,6 +73,46 @@ def cmd_build_dri_seed(args: argparse.Namespace) -> int:
     return 0
 
 
+def _read_password(args: argparse.Namespace) -> str:
+    if args.password_stdin:
+        return sys.stdin.readline().rstrip("\n")
+    pw = getpass.getpass("Password: ")
+    if pw != getpass.getpass("Repeat password: "):
+        raise ValueError("passwords don't match")
+    return pw
+
+
+def cmd_create_user(args: argparse.Namespace) -> int:
+    with get_session_factory()() as session:
+        try:
+            create_user(session, args.username, _read_password(args))
+        except ValueError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            return 1
+        session.commit()
+    print(f"Created user {args.username.strip().lower()!r}.")
+    return 0
+
+
+def cmd_set_password(args: argparse.Namespace) -> int:
+    with get_session_factory()() as session:
+        try:
+            set_password(session, args.username, _read_password(args))
+        except ValueError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            return 1
+        session.commit()
+    print("Password updated.")
+    return 0
+
+
+def cmd_serve(args: argparse.Namespace) -> int:
+    import uvicorn
+
+    uvicorn.run("nutrition.main:create_app", factory=True, host=args.host, port=args.port)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="nutrition")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -92,6 +134,20 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--html-dir", help="read saved copies of the pages instead of fetching")
     p.add_argument("--out-dir", default=str(SEEDS_DIR), help="where to write the CSVs")
     p.set_defaults(func=cmd_build_dri_seed)
+
+    for name, func, help_ in (
+        ("create-user", cmd_create_user, "add a household login"),
+        ("set-password", cmd_set_password, "change a login's password"),
+    ):
+        p = sub.add_parser(name, help=help_)
+        p.add_argument("username")
+        p.add_argument("--password-stdin", action="store_true", help="read password from stdin")
+        p.set_defaults(func=func)
+
+    p = sub.add_parser("serve", help="run the web app")
+    p.add_argument("--host", default="0.0.0.0", help="0.0.0.0 = reachable from phones on your LAN")
+    p.add_argument("--port", type=int, default=8000)
+    p.set_defaults(func=cmd_serve)
 
     args = parser.parse_args(argv)
     return args.func(args)
